@@ -16,7 +16,7 @@ def dcardSW(rb=None):
     # 'The port name the USB-ISS module is connected to. Default: /dev/ttyACM0'
     port = "/dev/tty.usbmodem000692161"
     #chip_addresses = [0x60, 0x61, 0x62, 0x63]
-    chip_addresses = [0x60]
+    chip_addresses = [0x62]
     ws_addresses = [None] * len(chip_addresses)
     
     i2c_conn = helpers.i2c_connection(port,chip_addresses,ws_addresses,chip_names, rb=rb)
@@ -50,7 +50,7 @@ def main():
     ap.add_argument("--rb", type=int, default=0, help="ReadoutBoard index (for multi-rb config)")
     ap.add_argument("--config", default="modulev2", help="ReadoutBoard + Module version config") 
     ap.add_argument("--module", type = int, default = 1, help = 'Which module slot to use on RB')
-    ap.add_argument("--moduleid", type = int, default = 40011, help = 'Serial number of module being used')
+    ap.add_argument("--moduleid", type = int, default = 40021, help = 'Serial number of module being used')
 
     args = ap.parse_args()
 

@@ -11,7 +11,7 @@ from pathlib import Path
 from tqdm import tqdm
 
 
-from i2c_gui2.script_helper import ScriptHelper
+from i2c_gui.script_helper import ScriptHelper
 
 # --------------------------- NEW ----------------------------
 class LpGBT_I2C_Controller:

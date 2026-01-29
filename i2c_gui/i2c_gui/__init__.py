@@ -43,8 +43,8 @@ from .functions import hex_0fill
 from .functions import addLoggingLevel
 
 # Add custom log levels to logging
-addLoggingLevel('TRACE', 8)
-addLoggingLevel('DETAILED_TRACE', 5)
+#addLoggingLevel('TRACE', 8)
+#addLoggingLevel('DETAILED_TRACE', 5)
 #addLoggingLevel('HIGH_TEST', 100)
 
 def set_platform(value):
