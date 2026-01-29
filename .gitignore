@@ -1,0 +1,4 @@
+venv/
+.venv/
+*venv*
+i2c_gui/venv*
