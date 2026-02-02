@@ -14,7 +14,7 @@ def dcardSW(rb=None):
     
     
     # 'The port name the USB-ISS module is connected to. Default: /dev/ttyACM0'
-    port = "/dev/tty.usbmodem000692161"
+    port = "/dev/ttyACM0"
     #chip_addresses = [0x60, 0x61, 0x62, 0x63]
     chip_addresses = [0x62]
     ws_addresses = [None] * len(chip_addresses)
@@ -71,6 +71,11 @@ def main():
 
     moduleids=[0, 0, 0]
     moduleids[args.module - 1] = args.moduleid
+    rb.connect_modules(
+    moduleids=moduleids, # third slot
+    hard_reset=True, 
+    ext_vref=True # uses whatever in the config to power up / down vref
+    )
     rb.select_module(args.module)
     time.sleep(0.05)
 

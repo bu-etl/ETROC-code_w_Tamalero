@@ -291,12 +291,28 @@ class Address_Space_Controller(GUI_Helper):
         #self._logger.detailed_trace("Entered Address_Space_Controller._update_decoded_value(block={}, value={}, bits={}, position={})".format(block, value, bits, position))
         register_string = "{}/{}[{}]".format(block, position[0], position[1])
         decoded_string = "{}[{}]".format(value, position[2])
+        
+        # --------------------------- NEW ----------------------------
+        '''
         self._logger.detailed_trace("Attempting to update decoded value {} from register {}".format(decoded_string, register_string))
+        '''
+        msg = f"Attempting to update decoded value {decoded_string} from register {register_string}"
+        log = getattr(self, "_logger", None)
+
+        if log is not None:
+            if hasattr(log, "detailed_trace"):
+                log.detailed_trace(msg)
+            elif hasattr(log, "debug"):
+                log.debug(msg)
+        # --------------------------- NEW END ------------------------
+        
         if hasattr(self, "_updating_from_decoded_value"):  # Avoid an infinite loop where the two variables trigger each other
             if self._updating_from_decoded_value == decoded_string:
                 return
 
-        self._logger.trace("Updating decoded value {} from register {}".format(decoded_string, register_string))
+        # --------------------------- NEW ----------------------------
+        # self._logger.trace("Updating decoded value {} from register {}".format(decoded_string, register_string)) 
+        # --------------------------- NEW END ------------------------
 
         self._updating_from_register = True
 
