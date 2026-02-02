@@ -33,8 +33,8 @@ import io
 class Logging_Helper(GUI_Helper):
     _parent: Base_GUI
     _log_levels = {
-        #"Detailed Trace": logging.DETAILED_TRACE,  # (Custom)
-        #"Trace": logging.TRACE,  # (Custom)
+        "Detailed Trace": logging.DETAILED_TRACE,  # (Custom)
+        "Trace": logging.TRACE,  # (Custom)
         "Debug": logging.DEBUG,
         "Info": logging.INFO,
         "Warning": logging.WARNING,

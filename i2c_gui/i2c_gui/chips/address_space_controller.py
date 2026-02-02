@@ -169,6 +169,31 @@ class Address_Space_Controller(GUI_Helper):
                         self._logger.error("An impossible condition occured, there was a memory block defined which does not have a base address and does not have an indexer")
 
 
+    def __len__(self):
+        return self._address_space_size
+
+    def __getitem__(self, index):
+        if isinstance(index, int):
+            return self._memory[index]
+        elif isinstance(index, tuple):
+            block_name, register_name = index
+            return self._memory[self._register_map[block_name + "/" + register_name]]
+        else:
+            raise RuntimeError("Unknown index for address space controller get")
+
+    def __setitem__(self, index, value):
+        if isinstance(index, int):
+            self._memory[index] = value
+        elif isinstance(index, tuple):
+            block_name, register_name = index
+            self._memory[self._register_map[block_name + "/" + register_name]] = value
+        else:
+            raise RuntimeError("Unknown index for address space controller set")
+
+    def __iter__(self):
+        for i in self._memory:
+            yield i
+
     @property
     def lpgbt(self):
         if self._lpgbt is not None:
@@ -263,7 +288,7 @@ class Address_Space_Controller(GUI_Helper):
         #self._logger.detailed_trace("Entered Address_Space_Controller._update_register(block={}, value={}, bits={}, position={})".format(block, value, bits, position))
         register_string = "{}/{}[{}]".format(block, position[0], position[1])
         decoded_string = "{}[{}]".format(value, position[2])
-        self._logger.detailed_trace("Attempting to update register {} from decoded value {}".format(register_string, decoded_string))
+        #self._logger.detailed_trace("Attempting to update register {} from decoded value {}".format(register_string, decoded_string))
         if hasattr(self, "_updating_from_register"):  # Avoid an infinite loop where the two variables trigger each other
             return
 
@@ -473,7 +498,7 @@ class Address_Space_Controller(GUI_Helper):
             self._logger.info("Unable to write to the register at address {} in the address space '{}' because it is read only".format(address, self._name))
             return False
 
-        self._logger.info("Writing register at address {} in the address space '{}'".format(address, self._name))
+        #self._logger.info("Writing register at address {} in the address space '{}'".format(address, self._name))
 
         from math import ceil
         write_bytes = ceil(self._register_length/8)
@@ -542,7 +567,7 @@ class Address_Space_Controller(GUI_Helper):
 
         read_bytes = ceil(self._register_length/8)
 
-        self._logger.info("Reading a block of {} registers ({} bytes each) starting at address {} in the address space '{}'".format(data_size, read_bytes, address, self._name))
+        #self._logger.info("Reading a block of {} registers ({} bytes each) starting at address {} in the address space '{}'".format(data_size, read_bytes, address, self._name))
 
         # --------------------------- NEW ----------------------------
         '''
@@ -625,7 +650,7 @@ class Address_Space_Controller(GUI_Helper):
             self.write_memory_block_with_split_for_read_only(address, data_size, write_check, read_address)
             return False
 
-        self._logger.info("Writing a block of {} bytes starting at address {} in the address space '{}'".format(data_size, address, self._name))
+        #self._logger.info("Writing a block of {} bytes starting at address {} in the address space '{}'".format(data_size, address, self._name))
 
         from math import ceil
 
@@ -706,7 +731,7 @@ class Address_Space_Controller(GUI_Helper):
             return
 
         block = self._blocks[block_name]
-        self._logger.info("Attempting to read block {}".format(block_name))
+        #self._logger.info("Attempting to read block {}".format(block_name))
 
         self.read_memory_block(block["Base Address"], block["Length"])
 
@@ -716,7 +741,7 @@ class Address_Space_Controller(GUI_Helper):
             return False
 
         block = self._blocks[block_name]
-        self._logger.info("Attempting to write block {}".format(block_name))
+        #self._logger.info("Attempting to write block {}".format(block_name))
 
         address = block["Base Address"]
         original_address = address
@@ -728,7 +753,7 @@ class Address_Space_Controller(GUI_Helper):
         return self.write_memory_block(block["Base Address"], block["Length"], write_check, original_address)
 
     def read_register(self, block_name, register_name):
-        self._logger.detailed_trace(f'Address_Space_Controller::read_register("{block_name}", "{register_name}")')
+        #self._logger.detailed_trace(f'Address_Space_Controller::read_register("{block_name}", "{register_name}")')
         if self._i2c_address is None:
             self.send_message("Unable to read address space '{}' because the i2c address is not set".format(self._name), "Error")
             return

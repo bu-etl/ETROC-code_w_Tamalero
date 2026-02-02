@@ -33,7 +33,8 @@ class ScriptHelper(GUI_Helper):
         super().__init__("Script Helper", tk.Tk(), logger)
 
     def _local_status_update(self, value):
-        self._logger.info("Updating local status to: {}".format(value))
+        pass
+        #self._logger.info("Updating local status to: {}".format(value))
 
     def send_message(self, message:str, status:str = "Message"):
         if status != "Message":

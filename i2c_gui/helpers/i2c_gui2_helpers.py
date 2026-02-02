@@ -63,7 +63,7 @@ class i2c_connection():
         self.rb = rb
         self.lpgbt = lpgbt if lpgbt is not None else (rb.DAQ_LPGBT if rb is not None else None)
         self.conn = LpGBT_I2C_Controller(rb=self.rb, lpgbt=self.lpgbt, connected=True)
-        self._parent = ScriptHelper(self.conn)
+        self._parent = ScriptHelper(logger)
         self.conn.set_connected(True)
         # --------------------------- NEW END ------------------------
 
@@ -122,7 +122,8 @@ class i2c_connection():
             )
     
             # This is the critical part: connect the address spaces to real I2C slave addresses
-            chip.config_etroc2_i2c_address(chip_address)
+            #chip.config_etroc2_i2c_address(chip_address)
+            chip.config_i2c_address(chip_address)
     
             if ws_address is not None:
                 chip.config_waveform_sampler_i2c_address(ws_address)
