@@ -95,7 +95,7 @@ class i2c_connection():
             return
 
         chip.row = row
-        chip.col = col
+        chip.column = col
 
         chip.read_all_block("ETROC2", "Pixel Config")
 
@@ -204,7 +204,7 @@ class i2c_connection():
             return
 
         chip.row = row
-        chip.col = col
+        chip.column = col
         chip.read_all_block("ETROC2", "Pixel Config")
 
         pixel_config_dict = {
@@ -251,7 +251,7 @@ class i2c_connection():
         bl =  tmp_df.loc[(tmp_df['row'] == row) & (tmp_df['col'] == col)]['baseline'].values[0]
 
         chip.row = row
-        chip.col = col
+        chip.column = col
 
         chip.read_decoded_value("ETROC2", "Pixel Config", "DAC")
         old_DAC = chip.get_decoded_value("ETROC2", "Pixel Config", "DAC")
@@ -288,7 +288,7 @@ class i2c_connection():
 
         for row, col in scan_list:
             chip.row = row
-            chip.col = col
+            chip.column = col
 
             chip.set_decoded_value("ETROC2", "Pixel Config", "IBSel", IBSel)
             chip.write_decoded_value("ETROC2", "Pixel Config", "IBSel")
@@ -334,7 +334,7 @@ class i2c_connection():
         for row in range(16):
             for col in range(16):
                 chip.row = row
-                chip.col = col
+                chip.column = col
 
                 chip.read_decoded_value("ETROC2", "Pixel Status", 'PixelID')
                 fetched_row = chip.get_decoded_value("ETROC2", "Pixel Status", 'PixelID-Row')
@@ -427,7 +427,7 @@ class i2c_connection():
             chip: i2c_gui2.ETROC2_Chip = self.get_chip_i2c_connection(chip_address)
 
         chip.row = 0
-        chip.col = 0
+        chip.column = 0
         chip.read_all_block("ETROC2", "Pixel Config")
 
         # Define pixel configuration settings
@@ -469,7 +469,7 @@ class i2c_connection():
             for row in tqdm(range(16), desc="Checking broadcast for row", position=0):
                 for col in range(16):
                     chip.row = row
-                    chip.col = col
+                    chip.column = col
 
                     chip.read_all_block("ETROC2", "Pixel Config")
 
@@ -484,7 +484,7 @@ class i2c_connection():
             for row in tqdm(range(16), desc="Disabling row", position=0):
                 for col in range(16):
                     chip.row = row
-                    chip.col = col
+                    chip.column = col
 
                     chip.read_all_block("ETROC2", "Pixel Config")
 
@@ -534,7 +534,7 @@ class i2c_connection():
             print("Need either a chip or chip+ws address to access registers!")
 
         chip.row = 0
-        chip.col = 14
+        chip.column = 14
 
         ### WS and pixel initialization
         # self.enable_pixel_modular(row=row, col=col, verbose=True, chip_address=chip_address, chip=chip, QInjEn=True, Bypass_THCal=False, triggerWindow=True, cbWindow=True, power_mode="high")
@@ -735,7 +735,7 @@ class i2c_connection():
             chip: i2c_gui2.ETROC2_Chip = self.get_chip_i2c_connection(chip_address)
 
         chip.row = 0
-        chip.col = 0
+        chip.column = 0
 
         chip.read_decoded_value("ETROC2", "Pixel Config", "TH_offset")
         chip.set_decoded_value("ETROC2", "Pixel Config", "TH_offset", offset)
@@ -749,7 +749,7 @@ class i2c_connection():
             for row in tqdm(range(16), desc="Checking broadcast for row", position=0):
                 for col in range(16):
                     chip.row = row
-                    chip.col = col
+                    chip.column = col
 
                     chip.read_decoded_value("ETROC2", "Pixel Config", "TH_offset")
                     if chip.get_decoded_value("ETROC2", "Pixel Config", "TH_offset") != offset:
