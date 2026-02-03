@@ -453,7 +453,7 @@ class Address_Space_Controller(GUI_Helper):
             slave_addr=self._i2c_address,
             nbytes=read_bytes,
             adr_nbytes=2,       
-            master=2,        
+            master=1,        
             freq=2,             
         )
 
@@ -523,7 +523,7 @@ class Address_Space_Controller(GUI_Helper):
                 val=register_bytes[0],
                 slave_addr=self._i2c_address,
                 adr_nbytes=2,       
-                master=2,        
+                master=1,        
                 freq=2,             
             )
         else:
@@ -532,7 +532,7 @@ class Address_Space_Controller(GUI_Helper):
                 val=register_bytes,
                 slave_addr=self._i2c_address,
                 adr_nbytes=2,       
-                master=2,        
+                master=1,        
                 freq=2,             
             )
         # --------------------------- NEW END ------------------------
@@ -581,7 +581,7 @@ class Address_Space_Controller(GUI_Helper):
                 slave_addr=self._i2c_address,
                 nbytes=read_bytes,
                 adr_nbytes=2,
-                master=2,
+                master=1,
                 freq=2,
             )
             if read_bytes == 1:

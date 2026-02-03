@@ -6,7 +6,11 @@ from tamalero.ReadoutBoard import ReadoutBoard
 from tamalero import utils
 import argparse
 import time
-
+import sys
+sys.path.append('/home/naomi/repos/new_project/i2c_gui/helpers/i2c_gui2_helpers.py')
+sys.path.append('/home/naomi/repos/new_project/i2c_gui/i2c_gui/chips/address_space_controller.py')
+sys.path.append('/home/naomi/repos/new_project/i2c_gui/i2c_gui/chips/etroc2_chip.py')
+sys.path.append('/home/naomi/repos/new_project/i2c_gui/i2c_gui/chips/base_chip.py')
 
 def dcardSW(rb=None):
     chip_names = ["ET2p03_Bare19", "ET2p03_Bare20", "ET2p03_Bare21", "ET2p03_Bare22"]
@@ -16,11 +20,22 @@ def dcardSW(rb=None):
     # 'The port name the USB-ISS module is connected to. Default: /dev/ttyACM0'
     port = "/dev/ttyACM0"
     #chip_addresses = [0x60, 0x61, 0x62, 0x63]
-    chip_addresses = [0x70]
+    chip_addresses = [0x73]
     ws_addresses = [None] * len(chip_addresses)
     
     i2c_conn = helpers.i2c_connection(port,chip_addresses,ws_addresses,chip_names, rb=rb)
     
+    '''
+    # Uncomment this out to check if we are reading the expected peripheral config values
+    chip = i2c_conn.get_chip_i2c_connection(0x73)
+    chip.read_all()
+
+    for i in range(32):
+        reg_name = f"PeriCfg{i}"
+        val = chip["ETROC2", "Peripheral Config", reg_name]
+        print(f"{reg_name:9s} = 0x{val:02x}")
+    '''
+
     print('PLL and FC calibration')
     # Calibrate PLL
     for chip_address in chip_addresses[:]:
@@ -43,6 +58,7 @@ def dcardSW(rb=None):
     ### Save BL and NW
     now = datetime.datetime.now().isoformat(sep=' ', timespec='seconds')
     i2c_conn.save_baselines(hist_dir='./RESULTS/', save_notes=f'{now}')
+    
 
 def main():
     ap = argparse.ArgumentParser()
@@ -76,7 +92,7 @@ def main():
     hard_reset=True, 
     ext_vref=True # uses whatever in the config to power up / down vref
     )
-    rb.select_module(args.module)
+    rb.select_module(args.module - 1)
     time.sleep(0.05)
 
     dcardSW(rb=rb)
